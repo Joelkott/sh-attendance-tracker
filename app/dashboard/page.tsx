@@ -277,7 +277,7 @@ export default function DashboardPage() {
             {!timetable || timetable.length === 0 ? (
               <div className="rounded-3xl p-12 text-center" style={{ backgroundColor: '#1a1917' }}>
                 <p className="text-lg" style={{ color: '#7a7568' }}>No timetable data yet</p>
-                <p className="text-sm mt-2 opacity-60" style={{ color: '#7a7568' }}>Tap "Sync" to fetch your timetable</p>
+                <p className="text-sm mt-2 opacity-60" style={{ color: '#7a7568' }}>Tap &quot;Sync&quot; to fetch your timetable</p>
               </div>
             ) : (
               <>
@@ -451,7 +451,7 @@ export default function DashboardPage() {
             {bunkData.length === 0 ? (
               <div className="rounded-3xl p-12 text-center" style={{ backgroundColor: '#1a1917' }}>
                 <p className="text-lg" style={{ color: '#7a7568' }}>No attendance data yet</p>
-                <p className="text-sm mt-2 opacity-60" style={{ color: '#7a7568' }}>Tap "Sync" to fetch your attendance</p>
+                <p className="text-sm mt-2 opacity-60" style={{ color: '#7a7568' }}>Tap &quot;Sync&quot; to fetch your attendance</p>
               </div>
             ) : (
               <div className="space-y-4">
