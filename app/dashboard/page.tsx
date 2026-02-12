@@ -20,6 +20,7 @@ export default function DashboardPage() {
   const [selectedDayIndex, setSelectedDayIndex] = useState<number>(0);
   const [touchStart, setTouchStart] = useState<number>(0);
   const [touchEnd, setTouchEnd] = useState<number>(0);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -153,24 +154,38 @@ export default function DashboardPage() {
     const isRightSwipe = distance < -minSwipeDistance;
 
     if (isLeftSwipe && selectedDayIndex < days.length - 1) {
+      setSwipeDirection('left');
       setSelectedDayIndex(selectedDayIndex + 1);
     }
     if (isRightSwipe && selectedDayIndex > 0) {
+      setSwipeDirection('right');
       setSelectedDayIndex(selectedDayIndex - 1);
     }
   };
 
   const goToPreviousDay = () => {
     if (selectedDayIndex > 0) {
+      setSwipeDirection('right');
       setSelectedDayIndex(selectedDayIndex - 1);
     }
   };
 
   const goToNextDay = () => {
     if (selectedDayIndex < days.length - 1) {
+      setSwipeDirection('left');
       setSelectedDayIndex(selectedDayIndex + 1);
     }
   };
+
+  // Reset animation after day change
+  useEffect(() => {
+    if (swipeDirection) {
+      const timer = setTimeout(() => {
+        setSwipeDirection(null);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [swipeDirection]);
 
   const goToToday = () => {
     setSelectedDayIndex(currentDayIndex);
@@ -191,7 +206,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen pb-20" style={{ backgroundColor: '#0d0c0a' }}>
       {/* Header */}
-      <div className="px-6 pt-8 pb-6" style={{ background: 'linear-gradient(135deg, #b6af95 0%, #8a826e 100%)' }}>
+      <div className="px-6 pt-8 pb-6 sticky top-0 z-50" style={{ background: 'linear-gradient(135deg, #b6af95 0%, #8a826e 100%)' }}>
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold" style={{ color: '#0d0c0a' }}>
@@ -322,8 +337,15 @@ export default function DashboardPage() {
                   onTouchStart={onTouchStart}
                   onTouchMove={onTouchMove}
                   onTouchEnd={onTouchEnd}
-                  className="rounded-3xl overflow-hidden transition-all"
-                  style={{ backgroundColor: '#1a1917' }}
+                  className="rounded-3xl overflow-hidden"
+                  style={{
+                    backgroundColor: '#1a1917',
+                    animation: swipeDirection
+                      ? swipeDirection === 'left'
+                        ? 'slideInFromRight 0.3s ease-out'
+                        : 'slideInFromLeft 0.3s ease-out'
+                      : 'none',
+                  }}
                 >
                   {/* Day Banner */}
                   <div className="px-6 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #b6af95 0%, #8a826e 100%)' }}>
