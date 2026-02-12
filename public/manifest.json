@@ -1,0 +1,13 @@
+{
+  "name": "SHC Attend",
+  "short_name": "Attend",
+  "description": "Offline attendance tracker for Sacred Heart College Thevara students",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#1D527C",
+  "orientation": "portrait-primary",
+  "icons": [],
+  "categories": ["education", "productivity"],
+  "screenshots": []
+}

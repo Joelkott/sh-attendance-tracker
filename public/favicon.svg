@@ -1,0 +1,14 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="32" fill="#0d0c0a"/>
+
+  <!-- Checkmark -->
+  <path d="M20 32L28 40L44 24" stroke="#b6af95" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Calendar dots representing attendance -->
+  <circle cx="16" cy="16" r="2" fill="#b6af95"/>
+  <circle cx="24" cy="16" r="2" fill="#b6af95"/>
+  <circle cx="32" cy="16" r="2" fill="#b6af95"/>
+  <circle cx="40" cy="16" r="2" fill="#b6af95"/>
+  <circle cx="48" cy="16" r="2" fill="#b6af95"/>
+</svg>
