@@ -70,7 +70,7 @@ export default function LoginPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="25HBAB19202"
+                placeholder="Registration Number"
                 className="w-full px-4 py-3 rounded-2xl focus:outline-none transition-all"
                 style={{
                   backgroundColor: '#0d0c0a',

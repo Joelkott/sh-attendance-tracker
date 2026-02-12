@@ -179,7 +179,7 @@ export default function DebugPage() {
                     onChange={(e) => setFormData(e.target.value)}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500 font-mono text-sm"
                     rows={6}
-                    placeholder="UserName=25HBAB19202&#10;Password=yourpassword&#10;__RequestVerificationToken=..."
+                    placeholder="UserName=your_registration_number&#10;Password=your_password&#10;__RequestVerificationToken=..."
                   />
                 </div>
 
