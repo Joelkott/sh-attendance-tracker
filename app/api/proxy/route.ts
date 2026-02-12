@@ -55,44 +55,37 @@ export async function POST(request: NextRequest) {
 
     const targetUrl = `${SHC_CONFIG.BASE_URL}${targetPath}`;
 
-    // Build request options with realistic browser headers
-    const fetchOptions: RequestInit = {
-      method,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Cache-Control': 'max-age=0',
-      },
+    // Build request headers with realistic browser headers
+    const requestHeaders: Record<string, string> = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'DNT': '1',
+      'Connection': 'keep-alive',
+      'Upgrade-Insecure-Requests': '1',
+      'Sec-Fetch-Dest': 'document',
+      'Sec-Fetch-Mode': 'navigate',
+      'Sec-Fetch-Site': 'same-origin',
+      'Cache-Control': 'max-age=0',
     };
 
     // Add cookies if provided
     if (cookies) {
-      fetchOptions.headers = {
-        ...fetchOptions.headers,
-        'Cookie': cookies,
-      };
+      requestHeaders['Cookie'] = cookies;
     }
+
+    let requestBody: string | undefined;
 
     // Handle form data for POST requests
     if (method === 'POST' && formData) {
       const formBody = new URLSearchParams(formData).toString();
-      fetchOptions.body = formBody;
-      fetchOptions.headers = {
-        ...fetchOptions.headers,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': formBody.length.toString(),
-        'Origin': SHC_CONFIG.BASE_URL,
-        'Referer': `${SHC_CONFIG.BASE_URL}${targetPath === SHC_CONFIG.LOGIN_POST ? '/studentlogin' : targetPath}`,
-        'X-Requested-With': 'XMLHttpRequest', // AJAX header for API requests
-      };
+      requestBody = formBody;
+      requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
+      requestHeaders['Content-Length'] = formBody.length.toString();
+      requestHeaders['Origin'] = SHC_CONFIG.BASE_URL;
+      requestHeaders['Referer'] = `${SHC_CONFIG.BASE_URL}${targetPath === SHC_CONFIG.LOGIN_POST ? '/studentlogin' : targetPath}`;
+      requestHeaders['X-Requested-With'] = 'XMLHttpRequest';
     }
 
     // Make the request to SHC portal using native https module to capture cookies
@@ -108,7 +101,7 @@ export async function POST(request: NextRequest) {
         port: parsedUrl.port || 443,
         path: parsedUrl.pathname + parsedUrl.search,
         method: method,
-        headers: fetchOptions.headers,
+        headers: requestHeaders,
       };
 
       const req = https.request(options, (res) => {
@@ -174,8 +167,8 @@ export async function POST(request: NextRequest) {
         reject(error);
       });
 
-      if (fetchOptions.body) {
-        req.write(fetchOptions.body);
+      if (requestBody) {
+        req.write(requestBody);
       }
 
       req.end();

@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSync } from '@/hooks/useSync';
 import { useOffline } from '@/hooks/useOffline';
 import { ATTENDANCE_THRESHOLDS, ATTENDANCE_COLORS } from '@/lib/constants';
-import type { BunkCalculation } from '@/lib/types';
+import type { BunkCalculation, TimetableEntry } from '@/lib/types';
 
 type TabType = 'timetable' | 'bunk';
 
